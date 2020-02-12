@@ -1,0 +1,18 @@
+---
+- hosts: 172.31.83.194
+  become: yes
+  vars:
+   jfrog_user: admin
+   jfrog_password: password
+  tasks:
+  - name: install tomcat
+    apt: 
+      name: tomcat8
+      update_cache: yes
+      state: present
+  - name: download war
+    get_url:
+      url: http://18.234.139.18:8081/artifactory/chaitu/gameoflife.war
+      dest: /var/lib/tomcat8/webapps/
+      username: '{{ jfrog_user }}'
+      password: '{{ jfrog_password }}'
